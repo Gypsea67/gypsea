@@ -17,7 +17,7 @@ from backend.core.state import init_db, get_recent_events, add_event
 from backend.core.startup_check import run_startup_check, reap_zombie_agents
 from backend.core.system_monitor import get_system_info
 from backend.core.config import get_settings
-from backend.api import projects, system, chat, deploy, search, config_api
+from backend.api import projects, system, chat, deploy, search, config_api, gateway_ws
 
 
 @asynccontextmanager
@@ -86,6 +86,7 @@ app.include_router(chat.router)
 app.include_router(deploy.router)
 app.include_router(search.router)
 app.include_router(config_api.router)
+app.include_router(gateway_ws.router)
 
 
 # === SSE Event Stream ===

@@ -21,13 +21,20 @@ FRONTEND_PID=$!
 
 cd "$GYPSEA_DIR"
 
-trap "kill $BACKEND_PID $FRONTEND_PID 2>/dev/null; exit" INT TERM
+echo "[Gypsea] Starting ChatClaw on :3000..."
+cd chatclaw && npx next dev --port 3000 &
+CHATCLAW_PID=$!
+
+cd "$GYPSEA_DIR"
+
+trap "kill $BACKEND_PID $FRONTEND_PID $CHATCLAW_PID 2>/dev/null; exit" INT TERM
 
 echo ""
 echo "[Gypsea] Running!"
-echo "  Backend:  http://localhost:8765"
-echo "  Frontend: http://localhost:5173"
-echo "  API docs: http://localhost:8765/docs"
+echo "  Backend:   http://localhost:8765"
+echo "  Frontend:  http://localhost:5173"
+echo "  ChatClaw:  http://localhost:3000"
+echo "  API docs:  http://localhost:8765/docs"
 echo ""
 echo "Press Ctrl+C to stop."
 

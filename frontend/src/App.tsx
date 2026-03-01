@@ -6,29 +6,63 @@ import SystemPanel from './components/SystemMonitor/SystemPanel'
 import { useAppStore } from './stores'
 import './App.css'
 
+const CHATCLAW_URL = 'http://localhost:3000'
+
 function App() {
-  const { sidebarOpen, toggleSidebar, selectedProject, projects, agents } = useAppStore()
+  const {
+    sidebarOpen, toggleSidebar,
+    selectedProject, projects, agents,
+    activeTab, setActiveTab,
+    chatclawFullscreen, toggleChatclawFullscreen,
+  } = useAppStore()
 
   const proj = selectedProject ? projects.find(p => p.name === selectedProject) : null
   const projAgents = selectedProject
     ? agents.filter(a => a.project === selectedProject && a.status === 'running')
     : []
 
-  // ESC closes drawer
+  // ESC closes drawer or exits fullscreen
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && sidebarOpen) toggleSidebar()
+      if (e.key === 'Escape') {
+        if (chatclawFullscreen) toggleChatclawFullscreen()
+        else if (sidebarOpen) toggleSidebar()
+      }
     }
     document.addEventListener('keydown', handleKey)
     return () => document.removeEventListener('keydown', handleKey)
-  }, [sidebarOpen, toggleSidebar])
+  }, [sidebarOpen, toggleSidebar, chatclawFullscreen, toggleChatclawFullscreen])
+
+  const isFullscreen = chatclawFullscreen && activeTab === 'chatclaw'
+
+  if (isFullscreen) {
+    return (
+      <div className="h-screen bg-gray-950 text-white flex flex-col">
+        {/* Thin top strip with exit button */}
+        <div className="h-8 flex items-center bg-gray-900/80 border-b border-gray-800 shrink-0 px-3 gap-2">
+          <button
+            onClick={toggleChatclawFullscreen}
+            className="px-2.5 py-0.5 text-[11px] font-medium bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded transition-colors"
+          >
+            &#x2715; Exit fullscreen
+          </button>
+          <span className="text-[11px] text-gray-600">Esc</span>
+        </div>
+        <iframe
+          src={CHATCLAW_URL}
+          className="flex-1 w-full border-0"
+          title="ChatClaw"
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="h-screen bg-gray-950 text-white flex flex-col">
       {/* Top bar */}
       <header className="h-12 flex items-center border-b border-gray-800 shrink-0">
-        {/* Left: hamburger + title */}
-        <div className="flex items-center gap-2 px-4">
+        {/* Left: hamburger + title + tabs */}
+        <div className="flex items-center gap-1 px-4">
           <button
             onClick={toggleSidebar}
             className="text-xl w-8 h-8 flex items-center justify-center rounded hover:bg-gray-800 transition-colors"
@@ -36,9 +70,42 @@ function App() {
           >
             &#9776;
           </button>
-          <h1 className="text-base font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent whitespace-nowrap">
+          <h1 className="text-base font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent whitespace-nowrap mr-3">
             Gypsea
           </h1>
+
+          {/* Tabs */}
+          <div className="flex items-center bg-gray-900 rounded-lg p-0.5">
+            <button
+              onClick={() => setActiveTab('chat')}
+              className={`px-3 py-1 text-xs rounded-md transition-colors ${
+                activeTab === 'chat'
+                  ? 'bg-gray-700 text-white'
+                  : 'text-gray-500 hover:text-gray-300'
+              }`}
+            >
+              Chat
+            </button>
+            <button
+              onClick={() => setActiveTab('chatclaw')}
+              className={`px-3 py-1 text-xs rounded-md transition-colors ${
+                activeTab === 'chatclaw'
+                  ? 'bg-gray-700 text-white'
+                  : 'text-gray-500 hover:text-gray-300'
+              }`}
+            >
+              ChatClaw
+            </button>
+          </div>
+
+          {activeTab === 'chatclaw' && (
+            <button
+              onClick={toggleChatclawFullscreen}
+              className="ml-2 px-2 py-0.5 text-[11px] font-medium bg-gray-800 hover:bg-gray-700 text-gray-500 hover:text-white rounded transition-colors"
+            >
+              Fullscreen
+            </button>
+          )}
         </div>
 
         {/* Right: project info + profile */}
@@ -86,9 +153,18 @@ function App() {
           </div>
         </aside>
 
-        {/* Main: Chat full width */}
+        {/* Main content — tab switch */}
         <main className="h-full flex flex-col overflow-hidden">
-          <ChatPanel />
+          <div className={`h-full ${activeTab === 'chat' ? '' : 'hidden'}`}>
+            <ChatPanel />
+          </div>
+          <div className={`h-full ${activeTab === 'chatclaw' ? '' : 'hidden'}`}>
+            <iframe
+              src={CHATCLAW_URL}
+              className="w-full h-full border-0"
+              title="ChatClaw"
+            />
+          </div>
         </main>
       </div>
     </div>

@@ -91,6 +91,14 @@ interface AppState {
   sidebarOpen: boolean
   toggleSidebar: () => void
 
+  // Tabs
+  activeTab: 'chat' | 'chatclaw'
+  setActiveTab: (tab: 'chat' | 'chatclaw') => void
+
+  // ChatClaw fullscreen
+  chatclawFullscreen: boolean
+  toggleChatclawFullscreen: () => void
+
   // Active streams
   activeStreams: Record<string, boolean>
   setStreamActive: (agentId: string, active: boolean) => void
@@ -132,6 +140,14 @@ export const useAppStore = create<AppState>((set) => ({
   // Sidebar
   sidebarOpen: false,
   toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+
+  // Tabs
+  activeTab: 'chat',
+  setActiveTab: (tab) => set({ activeTab: tab }),
+
+  // ChatClaw fullscreen
+  chatclawFullscreen: false,
+  toggleChatclawFullscreen: () => set((state) => ({ chatclawFullscreen: !state.chatclawFullscreen })),
 
   // Streams
   activeStreams: {},
