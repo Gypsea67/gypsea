@@ -1,0 +1,8 @@
+gypsea.db
+__pycache__/
+*.pyc
+node_modules/
+frontend/dist/
+.venv/
+storage
+.env
