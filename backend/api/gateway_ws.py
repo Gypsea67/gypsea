@@ -18,6 +18,7 @@ GATEWAY_TOKEN = "gypsea-local"  # Токен для ChatClaw
 @router.websocket("/ws/gateway")
 async def gateway_websocket(ws: WebSocket):
     await ws.accept()
+    print(f"[Gateway] WebSocket connected from {ws.client}", flush=True)
 
     # Отправляем challenge
     await ws.send_text(json.dumps({
@@ -46,6 +47,7 @@ async def gateway_websocket(ws: WebSocket):
                 token = params.get("auth", {}).get("token", "")
                 if token == GATEWAY_TOKEN:
                     authenticated = True
+                    print(f"[Gateway] Authenticated successfully", flush=True)
                     await ws.send_text(json.dumps({
                         "type": "res", "id": req_id, "ok": True,
                         "payload": {"protocol": 3, "sessionId": uuid.uuid4().hex},

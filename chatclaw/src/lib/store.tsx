@@ -459,21 +459,16 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     loadSettings().then(async () => {
       loadConversations();
-      // If no saved settings, try to detect local gateway and auto-connect
-      const s = stateRef.current.settings;
-      if (!s?.gatewayUrl) {
-        try {
-          const res = await fetch("/api/detect-gateway");
-          const data = await res.json();
-          if (data.found) {
-            dispatch({ type: "SET_DETECTED_GATEWAY", url: data.url, token: data.token });
-            // Auto-save and connect so user doesn't have to configure manually
-            const theme = stateRef.current.settings?.theme ?? "dark";
-            const saved = await saveSettings(data.url, data.token, theme);
-            dispatch({ type: "SET_SETTINGS", settings: saved });
-          }
-        } catch { /* ignore */ }
-      }
+      // Always detect and apply gateway config (Gypsea controls this endpoint)
+      try {
+        const res = await fetch("/api/detect-gateway");
+        const data = await res.json();
+        if (data.found) {
+          const theme = stateRef.current.settings?.theme ?? "dark";
+          const saved = await saveSettings(data.url, data.token, theme);
+          dispatch({ type: "SET_SETTINGS", settings: saved });
+        }
+      } catch { /* ignore */ }
     });
     return () => {
       resetGateway();
