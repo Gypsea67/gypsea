@@ -1,0 +1,92 @@
+{
+  "geniled.ru": {
+    "path": "/mnt/d/workprojects/geniled.ru",
+    "storage": "/mnt/d/Bloknot/Reels/Work/Projects/GENILED",
+    "server": "185.93.111.88",
+    "ssh": "ssh -i ~/.ssh/ed25519_key root@185.93.111.88",
+    "remote_path": "/home/web/vm-1d0be1a6.na4u.ru/www/",
+    "stack": "php-bitrix",
+    "priority": "high",
+    "hot": true,
+    "deploy_config": {
+      "deploy_method": "scp",
+      "ssh_command": "ssh",
+      "owner": "www-data",
+      "post_deploy": [],
+      "verify": ["curl -sI https://geniled.ru | grep 200"],
+      "cache_bust": {"type": "bitrix_cache"}
+    }
+  },
+  "geniled-shop.ru": {
+    "path": "/mnt/d/workprojects/geniled-shop.ru",
+    "storage": "/mnt/d/Bloknot/Reels/Work/Projects/Geniled-shop.ru",
+    "server": "91.201.54.214",
+    "ssh": "ssh -i ~/.ssh/ed25519_key root@91.201.54.214",
+    "remote_path": "/home/web/vm-55d4c1ee.na4u.ru/www/",
+    "stack": "php-bitrix-aspro",
+    "priority": "high",
+    "hot": true,
+    "deploy_config": {
+      "deploy_method": "cat_pipe",
+      "ssh_command": "ssh.exe",
+      "owner": "www-data",
+      "post_deploy": [],
+      "verify": ["curl -sI https://geniled-shop.ru | grep 200"],
+      "cache_bust": {"type": "bitrix_cache"}
+    }
+  },
+  "analyticsgeniled": {
+    "path": "/mnt/d/workprojects/analyticsgeniled",
+    "storage": "/mnt/d/Bloknot/Reels/Work/Projects/analyticsgeniled",
+    "server": "185.93.111.88",
+    "ssh": "ssh -i ~/.ssh/ed25519_key root@185.93.111.88",
+    "remote_path": "/opt/analytics/",
+    "stack": "python-fastapi",
+    "priority": "medium",
+    "hot": false,
+    "deploy_config": {
+      "deploy_method": "scp",
+      "ssh_command": "ssh",
+      "owner": "shtop",
+      "post_deploy": ["systemctl restart analytics"],
+      "verify": ["curl -sI https://analytics.geniled.ru/api/health | grep 200"],
+      "cache_bust": {"type": "redis_flush"}
+    }
+  },
+  "parkcalcdocker": {
+    "path": "/mnt/d/workprojects/parkcalcdocker",
+    "storage": "/mnt/d/Bloknot/Reels/Work/Projects/parkcalcdocker",
+    "server": "185.93.111.88",
+    "ssh": "ssh -i ~/.ssh/ed25519_key root@185.93.111.88",
+    "remote_path": "/opt/parkcalc/",
+    "stack": "python-react",
+    "priority": "medium",
+    "hot": false,
+    "deploy_config": {
+      "deploy_method": "scp",
+      "ssh_command": "ssh",
+      "owner": "root",
+      "post_deploy": [],
+      "verify": [],
+      "cache_bust": {"type": "query_param"}
+    }
+  },
+  "pmnew": {
+    "path": "/mnt/d/workprojects/pmnew",
+    "storage": "/mnt/d/Bloknot/Reels/Work/Projects/pmnew",
+    "server": "91.201.54.214",
+    "ssh": "ssh -i ~/.ssh/ed25519_key root@91.201.54.214",
+    "remote_path": "/home/web/pmnew/www/",
+    "stack": "php-bitrix",
+    "priority": "low",
+    "hot": false,
+    "deploy_config": {
+      "deploy_method": "scp",
+      "ssh_command": "ssh",
+      "owner": "www-data",
+      "post_deploy": [],
+      "verify": [],
+      "cache_bust": {"type": "bitrix_cache"}
+    }
+  }
+}

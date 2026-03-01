@@ -1,0 +1,16 @@
+{
+  "max_concurrent_agents": 4,
+  "ram_threshold_percent": 80,
+  "agent_timeout_minutes": 30,
+  "heartbeat_interval_seconds": 30,
+  "progress_stale_minutes": 5,
+  "git_cache_seconds": 60,
+  "refresh_interval_seconds": 5,
+  "context_warning_percent": 70,
+  "context_critical_percent": 85,
+  "stale_lock_minutes": 30,
+  "default_model": "opus",
+  "sse_retry_ms": 3000,
+  "kill_grace_seconds": 10,
+  "circuit_breaker_max_failures": 3
+}

@@ -1,0 +1,47 @@
+{
+  "active": "home",
+  "auto_detect": {
+    "work": {
+      "username": "dkalagirev"
+    },
+    "home": {
+      "username": "user"
+    }
+  },
+  "profiles": {
+    "work": {
+      "geniled.ru": {
+        "path": "/mnt/d/workprojects/geniled.ru"
+      },
+      "geniled-shop.ru": {
+        "path": "/mnt/d/workprojects/geniled-shop.ru"
+      },
+      "analyticsgeniled": {
+        "path": "/mnt/d/workprojects/analyticsgeniled"
+      },
+      "parkcalcdocker": {
+        "path": "/mnt/d/workprojects/parkcalcdocker"
+      },
+      "pmnew": {
+        "path": "/mnt/d/workprojects/pmnew"
+      }
+    },
+    "home": {
+      "geniled.ru": {
+        "path": "/mnt/e/Projects/Geniled"
+      },
+      "geniled-shop.ru": {
+        "path": "/mnt/e/Projects/geniledshop"
+      },
+      "analyticsgeniled": {
+        "path": ""
+      },
+      "parkcalcdocker": {
+        "path": ""
+      },
+      "pmnew": {
+        "path": ""
+      }
+    }
+  }
+}
